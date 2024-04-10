@@ -56,14 +56,15 @@ namespace App.Infra.DataAccess.Repo.EF
         public CarRequest GetById(int id) => _context.Requests.Include(r => r.CarBrand).FirstOrDefault(r => r.Id == id);
 
 
-        public List<CarListDTO> GetList()
+        public List<CarListDTO> GetList(DateOnly date)
         {
-            var cars = _context.Requests.Where(r => r.IsAccepted == false)
+            var cars = _context.Requests.Where(r => r.IsAccepted == false && r.CreatedAt == date)
                 .Include(r => r.CarBrand)
                 .Select(r => new CarListDTO()
                 {
                     Id = r.Id,
                     UserPhoneNumber = r.UserPhoneNumber,
+                    CarPlateNumber = r.CarPlateNumber,
                     CarBrand = r.CarBrand.Brand,
                     IsAccepted = r.IsAccepted
                 }).ToList();
@@ -78,6 +79,7 @@ namespace App.Infra.DataAccess.Repo.EF
                 {
                     Id = r.Id,
                     UserPhoneNumber = r.UserPhoneNumber,
+                    CarPlateNumber = r.CarPlateNumber,
                     CarBrand = r.CarBrand.Brand,
                     IsAccepted = r.IsAccepted
                 }).ToList();
@@ -93,5 +95,11 @@ namespace App.Infra.DataAccess.Repo.EF
 
         public bool ValidCarPlateNumber(string carPlateNumber)
             => _context.Requests.Any(r => r.CarPlateNumber == carPlateNumber);
+
+        public List<DateOnly> GetDates()
+        {
+            var dates = _context.Requests.Select(r=>r.CreatedAt).Distinct().ToList();
+            return dates;
+        }
     }
 }

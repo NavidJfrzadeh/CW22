@@ -120,9 +120,14 @@ namespace App.Domain.AppService
             return _requestService.GetById(id);
         }
 
-        public List<CarListDTO> GetList()
+        public List<DateOnly> GetDates()
         {
-            return _requestService.GetList();
+            return _requestService.GetDates();
+        }
+
+        public List<CarListDTO> GetListByDate(DateOnly date)
+        {
+            return _requestService.GetList(date);
         }
     }
 }

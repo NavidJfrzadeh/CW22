@@ -43,9 +43,14 @@ namespace App.Domain.Service
             return _requestRepo.GetById(id);
         }
 
-        public List<CarListDTO> GetList()
+        public List<DateOnly> GetDates()
         {
-            return _requestRepo.GetList();
+           return _requestRepo.GetDates();
+        }
+
+        public List<CarListDTO> GetList(DateOnly date)
+        {
+            return _requestRepo.GetList(date);
         }
 
         public bool ValidCarPlateNumber(string carPlateNumber)

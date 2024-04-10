@@ -24,18 +24,18 @@ namespace CarService.Controllers
                 return RedirectToAction("AdminLogin");
             }
 
-            var carList = _requestAppService.GetList();
-            return View(carList);
+            var DateList = _requestAppService.GetDates();
+            return View(DateList);
         }
 
-        public IActionResult RequetListByDate()
+        public IActionResult RequetListByDate(DateOnly date)
         {
             if (InMemoryDatabase.ActiveAdmin == null)
             {
                 return RedirectToAction("AdminLogin");
             }
 
-            var carList = _requestAppService.GetList();
+            var carList = _requestAppService.GetListByDate(date);
             return View(carList);
         }
 
