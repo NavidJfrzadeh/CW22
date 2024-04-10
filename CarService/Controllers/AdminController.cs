@@ -28,6 +28,18 @@ namespace CarService.Controllers
             return View(carList);
         }
 
+        public IActionResult RequetListByDate()
+        {
+            if (InMemoryDatabase.ActiveAdmin == null)
+            {
+                return RedirectToAction("AdminLogin");
+            }
+
+            var carList = _requestAppService.GetList();
+            return View(carList);
+        }
+
+
         public IActionResult ViewDetails(int id)
         {
             if (InMemoryDatabase.ActiveAdmin == null)

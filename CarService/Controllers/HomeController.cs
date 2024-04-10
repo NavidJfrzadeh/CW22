@@ -1,4 +1,5 @@
 using CarService.Models;
+using Core.CarEntity;
 using Core.CarEntity.Contracts;
 using Core.LogEntity.Contracts;
 using Core.RequestEntity.Contracts;
@@ -14,10 +15,10 @@ namespace CarService.Controllers
         private readonly IRequestAppService _requestAppService;
         private readonly ICarModelAppService _carModelAppService;
 
-        public HomeController(ILogger<HomeController> logger , IRequestAppService RequestAppService , ICarModelAppService carModelAppService)
+        public HomeController(ILogger<HomeController> logger, IRequestAppService RequestAppService, ICarModelAppService carModelAppService)
         {
             _logger = logger;
-           _requestAppService = RequestAppService;
+            _requestAppService = RequestAppService;
             _carModelAppService = carModelAppService;
         }
 
@@ -37,9 +38,17 @@ namespace CarService.Controllers
         [HttpPost]
         public IActionResult AddRequest(RequestDTO requestDTO)
         {
+            ModelState.Remove("CarBrand");
+            if (!ModelState.IsValid)
+            {
+                var carModels = _carModelAppService.GetCarModels();
+                ViewBag.CarModels = carModels;
+                return View(requestDTO);
+            }
+
             var Message = _requestAppService.CreateRequest(requestDTO);
             TempData["Message"] = Message;
-            
+
             return RedirectToAction("Index");
         }
 

@@ -6,9 +6,10 @@
     var CarBrands = ViewBag.CarModels as List<CarModelDTO>;
 }
 
-<h2>add Request</h2>
+<h2 class="container">add Request</h2>
 
 <form class="container col-lg-5" asp-action="AddRequest" method="post">
+    <div class="text-danger" asp-validation-summary="All"></div>
     <div class="mb-3">
         <label asp-for="@Model.CarPlateNumber" class="form-label">car plate</label>
         <input type="text" class="form-control" asp-for="@Model.CarPlateNumber">
