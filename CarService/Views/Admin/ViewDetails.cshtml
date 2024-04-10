@@ -1,0 +1,33 @@
+﻿@using Core.RequestEntity
+@model CarRequest
+@{
+    Layout = "_AdminLayout";
+}
+
+<table class="table table-hover table-striped table-responsive col-lg-5">
+    <thead>
+        <tr>
+            <th scope="col">Car plate number</th>
+            <th scope="col">Car Brand</th>
+            <th scope="col">Car produce date</th>
+            <th scope="col">User phone number</th>
+            <th scope="col">user Address</th>
+            <th scope="col">User national code</th>
+            <th scope="col">Request Status</th>
+            <th scope="col">Operation</th>
+        </tr>
+    </thead>
+    <tbody>
+        <td scope="row">@Model.CarPlateNumber</td>
+        <td scope="row">@Model.CarBrand.Brand</td>
+        <td scope="row">@Model.CarProduceDate</td>
+        <td scope="row">@Model.UserPhoneNumber</td>
+        <td scope="row">@Model.UserAddress</td>
+        <td scope="row">@Model.UserNationalCode</td>
+        <td scope="row">@Model.IsAccepted</td>
+        <td scope="row">
+            <a class="btn btn-warning btn-sm" asp-action="RequestAccept" asp-route-id="@Model.Id">Accept</a>
+            <a class="btn btn-danger btn-sm" asp-action="RequestDelete" asp-route-id="@Model.Id">Delete</a>
+        </td>
+    </tbody>
+</table>

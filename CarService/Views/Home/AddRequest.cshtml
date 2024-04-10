@@ -1,0 +1,41 @@
+﻿@using Core.CarEntity.DTOs
+@using Core.RequestEntity.DTOs
+@model RequestDTO
+
+@{
+    var CarBrands = ViewBag.CarModels as List<CarModelDTO>;
+}
+
+<h2>add Request</h2>
+
+<form class="container col-lg-5" asp-action="AddRequest" method="post">
+    <div class="mb-3">
+        <label asp-for="@Model.CarPlateNumber" class="form-label">car plate</label>
+        <input type="text" class="form-control" asp-for="@Model.CarPlateNumber">
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.CarBrandId" class="form-label">select car model</label>
+        <select class="form-select" asp-for="@Model.CarBrandId">
+            @foreach (var item in CarBrands)
+            {
+                <option value="@item.Id">@item.brand</option>
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.CarProduceDate" class="form-label">car Produce date</label>
+        <input type="date" class="form-control" asp-for="@Model.CarProduceDate">
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.UserPhoneNumber" class="form-label">Phone Number</label>
+        <input type="number" class="form-control" asp-for="@Model.UserPhoneNumber">
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.UserNationalCode" class="form-label">User National Code</label>
+        <input type="number" class="form-control" asp-for="@Model.UserNationalCode">
+    </div>
+    <div class="mb-3">
+        <textarea rows="4" class="form-control" asp-for="@Model.UserAddress" placeholder="Enter Your Address"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

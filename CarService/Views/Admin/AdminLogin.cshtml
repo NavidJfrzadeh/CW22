@@ -1,0 +1,16 @@
+﻿@using Core.AdminEntity.DTOs
+@model AdminLoginDTO
+
+<h3>Admin Level Login</h3>
+
+<form class="container col-lg-5" asp-action="AdminLogin" method="post">
+    <div class="mb-3">
+        <label asp-for="@Model.Email" class="form-label">Email</label>
+        <input asp-for="@Model.Email" class="form-control" type="text" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.Password" class="form-label"></label>
+        <input asp-for="@Model.Password" class="form-control" type="password" />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
