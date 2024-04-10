@@ -41,6 +41,6 @@ namespace App.Domain.Service
             }
         }
 
-        public bool IsValidForSubmit(DateOnly CarProduceDate) => CarProduceDate > new DateOnly().AddDays(-5);
+        public bool IsValidForSubmit(DateOnly CarProduceDate) => CarProduceDate > DateOnly.FromDateTime(DateTime.Now).AddDays(-5);
     }
 }

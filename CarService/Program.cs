@@ -28,7 +28,6 @@ builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 
 //Log
-builder.Services.AddScoped<ILogAppService, LogAppService>();
 builder.Services.AddScoped<ILogService, LogService>();
 builder.Services.AddScoped<ILogRepository, LogRepository>();
 

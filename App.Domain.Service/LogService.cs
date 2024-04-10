@@ -1,4 +1,5 @@
-﻿using Core.LogEntity.Contracts;
+﻿using Core.CarEntity;
+using Core.LogEntity.Contracts;
 
 namespace App.Domain.Service
 {
@@ -10,9 +11,10 @@ namespace App.Domain.Service
         {
             _logRepository = logRepository;
         }
-        public void Create(int requestId)
+
+        public void Create(string userPhoneNumber, string CarPlateNumber, int CarBrandId, CarBrand Brand, DateOnly CarProduceDate)
         {
-            _logRepository.Create(requestId);
+            _logRepository.Create(userPhoneNumber, CarPlateNumber, CarBrandId, Brand, CarProduceDate);
         }
     }
 }

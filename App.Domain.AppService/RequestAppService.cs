@@ -12,7 +12,7 @@ namespace App.Domain.AppService
         private readonly ILogService _logService;
         private readonly IBaseService _baseService;
 
-        public RequestAppService(IRequestService requestService,ILogService logService,IBaseService baseService)
+        public RequestAppService(IRequestService requestService, ILogService logService, IBaseService baseService)
         {
             _requestService = requestService;
             _logService = logService;
@@ -34,20 +34,29 @@ namespace App.Domain.AppService
             var isEven = _baseService.IsEven(DateOnly.FromDateTime(DateTime.Now));
             string message = string.Empty;
 
-            if(requestDTO.CarBrandId == 1)
+            if (requestDTO.CarBrandId == 1)
             {
                 if (isEven == 2)
                 {
-                    if(_requestService.Capacity(requestDTO.CreatedAt) < 10)
+                    var count = _requestService.Capacity(requestDTO.CreatedAt);
+                    if (count < 10)
                     {
-                        if(_baseService.IsValidForSubmit(requestDTO.CreatedAt))
+                        if (_baseService.IsValidForSubmit(requestDTO.CarProduceDate))
                         {
-                            var requestId = _requestService.CreateRequest(requestDTO);
-                            message = "درخواست شما با موفقیت ثبت شد";
+                            var ValidPlate = _requestService.ValidCarPlateNumber(requestDTO.CarPlateNumber);
+                            if (!ValidPlate)
+                            {
+                                _requestService.CreateRequest(requestDTO);
+                                message = "درخواست شما با موفقیت ثبت شد";
+                            }
+                            else
+                            {
+                                message = "شماره پلاک ماشین قبلا ثبت شده است";
+                            }
                         }
                         else
                         {
-                            _logService.Create(requestId);
+                           // _logService.Create(requestDTO.UserPhoneNumber, requestDTO.CarPlateNumber, requestDTO.CarBrandId, requestDTO.CarBrand, requestDTO.CarProduceDate);
                             message = "از ارائه خدمات به ماشین های بالای پنج سال معذوریم ";
                         }
                     }
@@ -61,15 +70,31 @@ namespace App.Domain.AppService
                     message = "به ماشین های ایران خودرو فقط در روز های زوج خدمات ارائه می شود!";
                 }
             }
-            else if(requestDTO.CarBrandId == 2)
+            else if (requestDTO.CarBrandId == 2)
             {
-                if(isEven == 1)
+                if (isEven == 1)
                 {
-                    if (_requestService.Capacity(requestDTO.CreatedAt) < 5)
+                    var count = _requestService.Capacity(requestDTO.CreatedAt);
+                    if (count < 5)
                     {
-                        var requestId = _requestService.CreateRequest(requestDTO);
-                        _logService.Create(requestId);
-                        message = "درخواست شما با موفقیت ثبت شد";
+                        if (_baseService.IsValidForSubmit(requestDTO.CreatedAt))
+                        {
+                            var ValidPlate = _requestService.ValidCarPlateNumber(requestDTO.CarPlateNumber);
+                            if (!ValidPlate)
+                            {
+                                _requestService.CreateRequest(requestDTO);
+                                message = "درخواست شما با موفقیت ثبت شد";
+                            }
+                            else
+                            {
+                                message = "شماره پلاک ماشین قبلا ثبت شده است";
+                            }
+                        }
+                        else
+                        {
+                            //_logService.Create(requestDTO.UserPhoneNumber, requestDTO.CarPlateNumber, requestDTO.CarBrandId, requestDTO.CarBrand, requestDTO.CarProduceDate);
+                            message = "از ارائه خدمات به ماشین های بالای پنج سال معذوریم ";
+                        }
                     }
                     else
                     {
@@ -92,7 +117,7 @@ namespace App.Domain.AppService
 
         public CarRequest GetById(int id)
         {
-           return _requestService.GetById(id);
+            return _requestService.GetById(id);
         }
 
         public List<CarListDTO> GetList()

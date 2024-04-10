@@ -15,7 +15,7 @@ namespace App.Infra.DataAccess.Repo.EF
             _context = new AppDbContext();
         }
 
-        public int CreateRequest(RequestDTO requestDTO)
+        public void CreateRequest(RequestDTO requestDTO)
         {
             CarRequest newRequest = new CarRequest()
             {
@@ -30,7 +30,6 @@ namespace App.Infra.DataAccess.Repo.EF
             };
             _context.Requests.Add(newRequest);
             _context.SaveChanges();
-            return newRequest.Id;
         }
 
         public void AcceptRequest(int id)
@@ -54,13 +53,13 @@ namespace App.Infra.DataAccess.Repo.EF
             }
         }
 
-        public CarRequest GetById(int id) => _context.Requests.Include(r=>r.CarBrand).FirstOrDefault(r => r.Id == id);
+        public CarRequest GetById(int id) => _context.Requests.Include(r => r.CarBrand).FirstOrDefault(r => r.Id == id);
 
 
         public List<CarListDTO> GetList()
         {
             var cars = _context.Requests.Where(r => r.IsAccepted == false)
-                .Include(r=>r.CarBrand)
+                .Include(r => r.CarBrand)
                 .Select(r => new CarListDTO()
                 {
                     Id = r.Id,
@@ -88,8 +87,11 @@ namespace App.Infra.DataAccess.Repo.EF
 
         public int Capacity(DateOnly date)
         {
-            var count = _context.Requests.Where(r=>r.CreatedAt == date).Count();
+            var count = _context.Requests.Where(r => r.CreatedAt == date).Count();
             return count;
         }
+
+        public bool ValidCarPlateNumber(string carPlateNumber)
+            => _context.Requests.Any(r => r.CarPlateNumber == carPlateNumber);
     }
 }

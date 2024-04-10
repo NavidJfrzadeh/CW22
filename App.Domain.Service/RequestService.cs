@@ -28,9 +28,9 @@ namespace App.Domain.Service
             return _requestRepo.Capacity(date);
         }
 
-        public int CreateRequest(RequestDTO requestDTO)
+        public void CreateRequest(RequestDTO requestDTO)
         {
-            return _requestRepo.CreateRequest(requestDTO);
+           _requestRepo.CreateRequest(requestDTO);
         }
 
         public void DeleteRequest(int id)
@@ -40,12 +40,15 @@ namespace App.Domain.Service
 
         public CarRequest GetById(int id)
         {
-           return _requestRepo.GetById(id);
+            return _requestRepo.GetById(id);
         }
 
         public List<CarListDTO> GetList()
         {
             return _requestRepo.GetList();
         }
+
+        public bool ValidCarPlateNumber(string carPlateNumber)
+            => _requestRepo.ValidCarPlateNumber(carPlateNumber);
     }
 }
