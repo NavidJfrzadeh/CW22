@@ -12,9 +12,9 @@ namespace App.Infra.DataAccess.Repo.EF
     public class CarModelRepository : ICarModelRepository
     {
         private AppDbContext _dbContext;
-        public CarModelRepository()
+        public CarModelRepository(AppDbContext context)
         {
-            _dbContext = new AppDbContext();
+            _dbContext = context;
         }
         public List<CarModelDTO> GetAllModels()
         {

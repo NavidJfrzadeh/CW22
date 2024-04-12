@@ -10,9 +10,9 @@ namespace App.Infra.DataAccess.Repo.EF
     {
         private readonly AppDbContext _context;
 
-        public RequestRepository()
+        public RequestRepository(AppDbContext context)
         {
-            _context = new AppDbContext();
+            _context = context;
         }
 
         public void CreateRequest(RequestDTO requestDTO)
