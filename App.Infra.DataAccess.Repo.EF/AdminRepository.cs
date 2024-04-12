@@ -8,9 +8,9 @@ namespace App.Infra.DataAccess.Repo.EF
     public class AdminRepository : IAdminRepository
     {
         private AppDbContext _dbContext;
-        public AdminRepository()
+        public AdminRepository(AppDbContext context)
         {
-            _dbContext = new AppDbContext();
+            _dbContext = context;
         }
         public Admin GetByUserPass(AdminLoginDTO adminLoginDTO)
         {

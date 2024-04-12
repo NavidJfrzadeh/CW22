@@ -10,11 +10,13 @@ namespace CarService.Controllers
     {
         private readonly IAdminAppService _adminAppService;
         private readonly IRequestAppService _requestAppService;
+        private readonly ILogger _logger;
 
-        public AdminController(IAdminAppService adminAppService,IRequestAppService requestAppService)
+        public AdminController(IAdminAppService adminAppService,IRequestAppService requestAppService,ILogger logger)
         {
             _adminAppService = adminAppService;
             _requestAppService = requestAppService;
+            _logger = logger;
         }
 
         public IActionResult Index()
@@ -60,7 +62,7 @@ namespace CarService.Controllers
             }
 
             _requestAppService.AcceptRequest(id);
-
+            _logger.LogInformation("request Accepted by Admin");
             return RedirectToAction("Index");
         }
 
@@ -71,6 +73,7 @@ namespace CarService.Controllers
                 return RedirectToAction("AdminLogin");
             }
             _requestAppService.DeleteRequest(id);
+            _logger.LogWarning("request Rejected by Admin");
             return RedirectToAction("Index");
         }
 

@@ -8,9 +8,9 @@ namespace App.Infra.DataAccess.Repo.EF
     public class LogRepository : ILogRepository
     {
         private readonly AppDbContext _context;
-        public LogRepository()
+        public LogRepository(AppDbContext context)
         {
-            _context = new AppDbContext();
+            _context = context;
         }
 
         public void Create(string userPhoneNumber, string CarPlateNumber, int CarBrandId, CarBrand Brand, DateOnly CarProduceDate)

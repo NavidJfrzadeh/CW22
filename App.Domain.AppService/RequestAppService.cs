@@ -3,6 +3,7 @@ using Core.LogEntity.Contracts;
 using Core.RequestEntity;
 using Core.RequestEntity.Contracts;
 using Core.RequestEntity.DTOs;
+using Microsoft.Extensions.Logging;
 
 namespace App.Domain.AppService
 {
@@ -11,12 +12,14 @@ namespace App.Domain.AppService
         private readonly IRequestService _requestService;
         private readonly ILogService _logService;
         private readonly IBaseService _baseService;
+        private readonly ILogger<RequestAppService> _logger;
 
-        public RequestAppService(IRequestService requestService, ILogService logService, IBaseService baseService)
+        public RequestAppService(IRequestService requestService, ILogService logService, IBaseService baseService, ILogger<RequestAppService> logger)
         {
             _requestService = requestService;
             _logService = logService;
             _baseService = baseService;
+            _logger = logger;
         }
 
         public void AcceptRequest(int id)
@@ -31,8 +34,15 @@ namespace App.Domain.AppService
 
         public string CreateRequest(RequestDTO requestDTO)
         {
-            var isEven = _baseService.IsEven(DateOnly.FromDateTime(DateTime.Now));
             string message = string.Empty;
+
+            var isEven = _baseService.IsEven(DateOnly.FromDateTime(DateTime.Now));
+            if (isEven == 0)
+            {
+                message = "سامانه در روز جمعه غیر فعال است";
+                _logger.LogError("site is not accessible at this time");
+                return message;
+            }
 
             if (requestDTO.CarBrandId == 1)
             {
@@ -47,6 +57,7 @@ namespace App.Domain.AppService
                             if (!ValidPlate)
                             {
                                 _requestService.CreateRequest(requestDTO);
+                                _logger.LogInformation("Request has been created");
                                 message = "درخواست شما با موفقیت ثبت شد";
                             }
                             else
@@ -56,7 +67,7 @@ namespace App.Domain.AppService
                         }
                         else
                         {
-                           // _logService.Create(requestDTO.UserPhoneNumber, requestDTO.CarPlateNumber, requestDTO.CarBrandId, requestDTO.CarBrand, requestDTO.CarProduceDate);
+                            _logService.Create(requestDTO.UserPhoneNumber, requestDTO.CarPlateNumber, requestDTO.CarBrandId, requestDTO.CarBrand, requestDTO.CarProduceDate);
                             message = "از ارائه خدمات به ماشین های بالای پنج سال معذوریم ";
                         }
                     }
@@ -77,7 +88,7 @@ namespace App.Domain.AppService
                     var count = _requestService.Capacity(requestDTO.CreatedAt);
                     if (count < 5)
                     {
-                        if (_baseService.IsValidForSubmit(requestDTO.CreatedAt))
+                        if (_baseService.IsValidForSubmit(requestDTO.CarProduceDate))
                         {
                             var ValidPlate = _requestService.ValidCarPlateNumber(requestDTO.CarPlateNumber);
                             if (!ValidPlate)
@@ -92,7 +103,7 @@ namespace App.Domain.AppService
                         }
                         else
                         {
-                            //_logService.Create(requestDTO.UserPhoneNumber, requestDTO.CarPlateNumber, requestDTO.CarBrandId, requestDTO.CarBrand, requestDTO.CarProduceDate);
+                            _logService.Create(requestDTO.UserPhoneNumber, requestDTO.CarPlateNumber, requestDTO.CarBrandId, requestDTO.CarBrand, requestDTO.CarProduceDate);
                             message = "از ارائه خدمات به ماشین های بالای پنج سال معذوریم ";
                         }
                     }
