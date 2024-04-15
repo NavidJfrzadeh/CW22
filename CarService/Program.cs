@@ -36,7 +36,7 @@ var connectionString = Configuration.GetSection("ConntectionStrings:AppConnectio
 //builder.Services.AddLogging(LoggingBuilder =>
 //{
 //    //LoggingBuilder.AddConsole();
-//    //LoggingBuilder.AddSeq("http://localhost:5341", "lMPa0VbbxSlBTx8OL6YT");
+//    //LoggingBuilder.AddSeq("http://localhost:5341", "Vv2EItBx8sQ7051Yxanq");
 
 //    LoggingBuilder.AddSerilog();
 //});
@@ -51,7 +51,7 @@ builder.Host.ConfigureLogging(logging =>
     .UseSerilog((context, config) =>
     {
         //config.MinimumLevel.Information();
-        //config.WriteTo.Seq("http://localhost:5341", Serilog.Events.LogEventLevel.Information, apiKey: "lMPa0VbbxSlBTx8OL6YT");
+        //config.WriteTo.Seq("http://localhost:5341", Serilog.Events.LogEventLevel.Information, apiKey: "Vv2EItBx8sQ7051Yxanq");
         config.WriteTo.File("D:\\My Files\\MaktabC#\\CW22\\Logs\\log.txt", Serilog.Events.LogEventLevel.Error);
 
         config.WriteTo.Seq(

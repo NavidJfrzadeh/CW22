@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infra.Database.SQLServer.EF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240411054612_NewPropertyForLog")]
-    partial class NewPropertyForLog
+    [Migration("20240415092456_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

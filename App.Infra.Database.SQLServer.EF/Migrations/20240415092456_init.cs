@@ -64,6 +64,29 @@ namespace App.Infra.Database.SQLServer.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Logs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserPhoneNumber = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
+                    CarPlateNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CarBrandId = table.Column<int>(type: "int", nullable: false),
+                    CarProduceDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", maxLength: 250, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Logs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Logs_Brands_CarBrandId",
+                        column: x => x.CarBrandId,
+                        principalTable: "Brands",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Requests",
                 columns: table => new
                 {
@@ -75,7 +98,8 @@ namespace App.Infra.Database.SQLServer.EF.Migrations
                     CarBrandId = table.Column<int>(type: "int", nullable: false),
                     CarProduceDate = table.Column<DateOnly>(type: "date", nullable: false),
                     UserAddress = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    IsAccepted = table.Column<bool>(type: "bit", nullable: false)
+                    IsAccepted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateOnly>(type: "date", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -84,26 +108,6 @@ namespace App.Infra.Database.SQLServer.EF.Migrations
                         name: "FK_Requests_Brands_CarBrandId",
                         column: x => x.CarBrandId,
                         principalTable: "Brands",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Logs",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CarRequestId = table.Column<int>(type: "int", nullable: false),
-                    CreateAt = table.Column<DateTime>(type: "datetime2", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Logs", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Logs_Requests_CarRequestId",
-                        column: x => x.CarRequestId,
-                        principalTable: "Requests",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -128,9 +132,9 @@ namespace App.Infra.Database.SQLServer.EF.Migrations
                 column: "CarBrandId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Logs_CarRequestId",
+                name: "IX_Logs_CarBrandId",
                 table: "Logs",
-                column: "CarRequestId");
+                column: "CarBrandId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Requests_CarBrandId",
